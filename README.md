@@ -1,66 +1,28 @@
-## Foundry
+# Combined Auction Contract
 
-**Foundry is a blazing fast, portable and modular toolkit for Ethereum application development written in Rust.**
+Smart contract implementing a combined auction mechanism switching from Dutch to English Auction, providing more flexibility. It allows users to auction their non-fungible tokens (NFTs) in a more flexible way than traditional Dutch Auction.
 
-Foundry consists of:
+## Overview
 
--   **Forge**: Ethereum testing framework (like Truffle, Hardhat and DappTools).
--   **Cast**: Swiss army knife for interacting with EVM smart contracts, sending transactions and getting chain data.
--   **Anvil**: Local Ethereum node, akin to Ganache, Hardhat Network.
--   **Chisel**: Fast, utilitarian, and verbose solidity REPL.
+This contract features (and combines) two types of auctions:
+- **Dutch Auction**: Initially, the price starts high and decreases until a bidder accepts the price or the auction ends.
+- **English Auction**: If a bidder accepts the price during Dutch Auction, an English auction begins with assigning the accepted price in Dutch Auction as the highest bid. Participants can place bids higher than the current highest bid until the auction concludes.
 
-## Documentation
-
-https://book.getfoundry.sh/
+- Seller of NFT deploys this contract.
+- Auction lasts for 7 days.
+- Participants can bid by depositing ETH greater than the current highest bidder.
+- All bidders can withdraw their bid if it is not the current highest bid.
 
 ## Usage
 
-### Build
+1. **Deployment**: Deploy the contract with specifying the NFT's address, NFT ID, Starting Price, Last Price. Starting and Last Prices are for the Dutch Auction phase and the NFT owner must approve their token for the contract before calling `start()` function.
+2. **Start Auction**: Use the `start()` function to commence the auction.
+3. **Bid or Buy**: During the Dutch Auction phase, users can `buy()` the NFT. In the English Auction phase, participants can `bid()` higher than the current highest bid.
+4. **Auction End**: Once the auction ends, use `endAuction()` to conclude and transfer the NFT to the winning bidder.
+5. **Withdraw Funds**: Bidders can `bidderWithdraw()` their funds if they're not the highest bidder, while the seller can `sellerWithdraw()` after the auction ends.
 
-```shell
-$ forge build
-```
+## Disclaimer
 
-### Test
+This contract is provided as-is and has not been audited, users are advised to review its functionality, test it extensively and get a security audit service from a reliable party before usage in a production environment.
 
-```shell
-$ forge test
-```
-
-### Format
-
-```shell
-$ forge fmt
-```
-
-### Gas Snapshots
-
-```shell
-$ forge snapshot
-```
-
-### Anvil
-
-```shell
-$ anvil
-```
-
-### Deploy
-
-```shell
-$ forge script script/Counter.s.sol:CounterScript --rpc-url <your_rpc_url> --private-key <your_private_key>
-```
-
-### Cast
-
-```shell
-$ cast <subcommand>
-```
-
-### Help
-
-```shell
-$ forge --help
-$ anvil --help
-$ cast --help
-```
+The main contract containing the Combined Auction mechanism is `CombinedAuction.sol` and the file containing the tests of the auction is `CombinedAuction.t.sol`. For testing the auction with NFTs, `ERC721Token.sol` and `LilOwnable.sol` developed by an awesome purple-haired dev were used. https://github.com/m1guelpf/erc721-drop

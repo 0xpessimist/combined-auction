@@ -167,6 +167,8 @@ contract CombinedAuction {
     function endAuctionIfNotSold() external {
         if (block.timestamp > dutchEndAt && highestBidder == address(0) && msg.sender == seller) {
             nft.transferFrom(address(this), seller, nftId);
+        } else {
+            revert();
         }
 
         emit AuctionEnded(seller, highestBid, nftId);
