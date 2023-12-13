@@ -1,6 +1,6 @@
 # Combined Auction
 
-Smart contract implementing a combined auction mechanism switching from Dutch to English Auction, providing more flexibility. It allows users to auction their non-fungible tokens (NFTs) in a more flexible way than traditional Dutch Auction.
+Smart contract implementing a novel combined auction mechanism switching from Dutch to English Auction, providing more flexibility. It allows users to auction their non-fungible tokens (NFTs) in a more flexible way than traditional Dutch Auction.
 
 ## Overview
 
